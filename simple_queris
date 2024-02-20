@@ -1,0 +1,16 @@
+-- Total Emissions by Country
+SELECT country, SUM(emissions) AS total_emissions
+FROM emissions
+GROUP BY country;
+
+-- Emissions Trend Over Time
+SELECT year, SUM(emissions) AS total_emissions
+FROM emissions
+GROUP BY year
+ORDER BY year;
+
+-- Renewable Energy Usage Over Time
+SELECT year, SUM(renewable_energy_used) AS total_renewable_energy
+FROM energy_usage
+GROUP BY year
+ORDER BY year;

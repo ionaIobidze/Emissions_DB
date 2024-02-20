@@ -1,0 +1,31 @@
+-- Step 1: Calculate necessary staff
+WITH stats AS (
+    SELECT 
+        e.year,
+        SUM(e.emissions) AS total_emissions,
+        SUM(u.renewable_energy_used) AS total_renewable_energy,
+        AVG(SUM(e.emissions)) OVER () AS avg_emissions,
+        AVG(SUM(u.renewable_energy_used)) OVER () AS avg_renewable_energy
+    FROM 
+        emissions e
+    JOIN 
+        energy_usage u ON e.country = u.country AND e.year = u.year
+    GROUP BY 
+        e.year
+),
+
+-- Step 2: Calculate numerator and denominators for correlation coefficient
+correlation_calcs AS (
+    SELECT 
+        SUM((total_emissions - avg_emissions) * (total_renewable_energy - avg_renewable_energy)) AS numerator,
+        SQRT(SUM((total_emissions - avg_emissions) * (total_emissions - avg_emissions))) AS denominator_emissions,
+        SQRT(SUM((total_renewable_energy - avg_renewable_energy) * (total_renewable_energy - avg_renewable_energy))) AS denominator_renewable_energy
+    FROM 
+        stats
+)
+
+-- Step 3: Calculate the correlation coefficient
+SELECT 
+    numerator / (denominator_emissions * denominator_renewable_energy) AS correlation_coefficient
+FROM 
+    correlation_calcs;
