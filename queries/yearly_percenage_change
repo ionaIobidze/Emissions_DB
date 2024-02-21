@@ -1,0 +1,10 @@
+SELECT 
+    c.country_name,
+    e.year,
+    ((e.emissions - LAG(e.emissions) OVER (PARTITION BY e.country_id ORDER BY e.year)) / LAG(e.emissions) OVER (PARTITION BY e.country_id ORDER BY e.year)) * 100 AS yoy_change_emissions
+FROM 
+    emissions e
+JOIN 
+    countries c ON e.country_id = c.id
+ORDER BY 
+    c.country_name, e.year;

@@ -1,0 +1,28 @@
+CREATE DATABASE carbon_emissions;
+USE carbon_emissions;
+
+-- Create a table for countries
+CREATE TABLE countries (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    country_name VARCHAR(50) UNIQUE
+);
+
+-- Create a table for emissions data
+CREATE TABLE emissions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    country_id INT,
+    year INT,
+    emissions FLOAT,
+    FOREIGN KEY (country_id) REFERENCES countries(id)
+);
+
+-- Create a table for energy usage data
+CREATE TABLE energy_usage (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    country_id INT,
+    year INT,
+    energy_used FLOAT,
+    renewable_energy_used FLOAT,
+    FOREIGN KEY (country_id) REFERENCES countries(id)
+);
+

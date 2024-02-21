@@ -1,0 +1,20 @@
+WITH renewable_growth AS (
+    SELECT 
+        c.country_name,
+        eu.year,
+        (eu.renewable_energy_used - LAG(eu.renewable_energy_used) OVER (PARTITION BY eu.country_id ORDER BY eu.year)) AS renewable_growth
+    FROM 
+        energy_usage eu
+    JOIN 
+        countries c ON eu.country_id = c.id
+)
+SELECT 
+    country_name,
+    SUM(renewable_growth) AS total_growth
+FROM 
+    renewable_growth
+GROUP BY 
+    country_name
+ORDER BY 
+    total_growth DESC
+LIMIT 3;

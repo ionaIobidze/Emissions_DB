@@ -1,0 +1,31 @@
+WITH yearly_stats AS (
+    SELECT 
+        e.year,
+        SUM(e.emissions) AS total_emissions,
+        SUM(eu.renewable_energy_used) AS total_renewable_energy,
+        SUM(eu.energy_used - eu.renewable_energy_used) AS total_nonrenewable_energy,
+        AVG(SUM(e.emissions)) OVER () AS avg_emissions,
+        AVG(SUM(eu.renewable_energy_used)) OVER () AS avg_renewable_energy,
+        AVG(SUM(eu.energy_used - eu.renewable_energy_used)) OVER () AS avg_nonrenewable_energy
+    FROM 
+        emissions e
+    JOIN 
+        energy_usage eu ON e.country_id = eu.country_id AND e.year = eu.year
+    GROUP BY 
+        e.year
+),
+correlation_calcs AS (
+    SELECT 
+        SUM((total_emissions - avg_emissions) * (total_renewable_energy - avg_renewable_energy)) AS numerator_renewable,
+        SQRT(SUM((total_emissions - avg_emissions) * (total_emissions - avg_emissions))) AS denominator_emissions,
+        SQRT(SUM((total_renewable_energy - avg_renewable_energy) * (total_renewable_energy - avg_renewable_energy))) AS denominator_renewable,
+        SUM((total_emissions - avg_emissions) * (total_nonrenewable_energy - avg_nonrenewable_energy)) AS numerator_nonrenewable,
+        SQRT(SUM((total_nonrenewable_energy - avg_nonrenewable_energy) * (total_nonrenewable_energy - avg_nonrenewable_energy))) AS denominator_nonrenewable
+    FROM 
+        yearly_stats
+)
+SELECT 
+    numerator_renewable / (denominator_emissions * denominator_renewable) AS correlation_coefficient_renewable,
+    numerator_nonrenewable / (denominator_emissions * denominator_nonrenewable) AS correlation_coefficient_nonrenewable
+FROM 
+    correlation_calcs;

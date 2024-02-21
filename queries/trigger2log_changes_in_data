@@ -1,0 +1,18 @@
+CREATE TABLE emissions_log (
+    log_id INT AUTO_INCREMENT PRIMARY KEY,
+    country_id INT,
+    year INT,
+    old_emissions FLOAT,
+    new_emissions FLOAT,
+    changed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+DELIMITER //
+CREATE TRIGGER emissions_update_trigger
+BEFORE UPDATE ON emissions
+FOR EACH ROW
+BEGIN
+    INSERT INTO emissions_log (country_id, year, old_emissions, new_emissions)
+    VALUES (OLD.country_id, OLD.year, OLD.emissions, NEW.emissions);
+END //
+DELIMITER ;

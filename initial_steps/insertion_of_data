@@ -1,0 +1,40 @@
+-- Insert countries
+INSERT INTO countries (country_name) VALUES 
+('China'), ('USA'), ('Japan'), ('Germany'), ('India');
+
+-- Insert CO2 Emissions Data
+INSERT INTO emissions (country_id, year, emissions) VALUES
+((SELECT id FROM countries WHERE country_name = 'China'), 2010, 8475000),
+((SELECT id FROM countries WHERE country_name = 'China'), 2011, 9283000),
+((SELECT id FROM countries WHERE country_name = 'China'), 2012, 9541000),
+((SELECT id FROM countries WHERE country_name = 'USA'), 2010, 5431000),
+((SELECT id FROM countries WHERE country_name = 'USA'), 2011, 5284000),
+((SELECT id FROM countries WHERE country_name = 'USA'), 2012, 5190000),
+((SELECT id FROM countries WHERE country_name = 'Japan'), 2010, 1191000),
+((SELECT id FROM countries WHERE country_name = 'Japan'), 2011, 1236000),
+((SELECT id FROM countries WHERE country_name = 'Japan'), 2012, 1299000),
+((SELECT id FROM countries WHERE country_name = 'Germany'), 2010, 822000),
+((SELECT id FROM countries WHERE country_name = 'Germany'), 2011, 804000),
+((SELECT id FROM countries WHERE country_name = 'Germany'), 2012, 814000),
+((SELECT id FROM countries WHERE country_name = 'India'), 2010, 1775000),
+((SELECT id FROM countries WHERE country_name = 'India'), 2011, 1921000),
+((SELECT id FROM countries WHERE country_name = 'India'), 2012, 2073000);
+
+-- Insert Energy Usage Data
+INSERT INTO energy_usage (country_id, year, energy_used, renewable_energy_used) VALUES
+((SELECT id FROM countries WHERE country_name = 'China'), 2010, 9200, 700),
+((SELECT id FROM countries WHERE country_name = 'China'), 2011, 9600, 800),
+((SELECT id FROM countries WHERE country_name = 'China'), 2012, 9900, 900),
+((SELECT id FROM countries WHERE country_name = 'USA'), 2010, 11000, 1100),
+((SELECT id FROM countries WHERE country_name = 'USA'), 2011, 10800, 1200),
+((SELECT id FROM countries WHERE country_name = 'USA'), 2012, 10600, 1300),
+((SELECT id FROM countries WHERE country_name = 'Japan'), 2010, 4600, 230),
+((SELECT id FROM countries WHERE country_name = 'Japan'), 2011, 4400, 260),
+((SELECT id FROM countries WHERE country_name = 'Japan'), 2012, 4500, 300),
+((SELECT id FROM countries WHERE country_name = 'Germany'), 2010, 2500, 340),
+((SELECT id FROM countries WHERE country_name = 'Germany'), 2011, 2450, 380),
+((SELECT id FROM countries WHERE country_name = 'Germany'), 2012, 2500, 420),
+((SELECT id FROM countries WHERE country_name = 'India'), 2010, 3300, 150),
+((SELECT id FROM countries WHERE country_name = 'India'), 2011, 3450, 170),
+((SELECT id FROM countries WHERE country_name = 'India'), 2012, 3600, 190);
+

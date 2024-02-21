@@ -1,0 +1,2 @@
+CREATE INDEX idx_country_year_emissions ON emissions(country_id, year);
+CREATE INDEX idx_country_year_energy_usage ON energy_usage(country_id, year);

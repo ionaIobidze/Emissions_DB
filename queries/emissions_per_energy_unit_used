@@ -1,0 +1,10 @@
+SELECT 
+    c.country_name,
+    e.year,
+    e.emissions / eu.energy_used AS emissions_intensity
+FROM 
+    emissions e
+JOIN 
+    energy_usage eu ON e.country_id = eu.country_id AND e.year = eu.year
+JOIN 
+    countries c ON e.country_id = c.id;

@@ -1,0 +1,13 @@
+DELIMITER //
+CREATE PROCEDURE GetAverageEmissions(IN countryName VARCHAR(50))
+BEGIN
+    SELECT 
+        AVG(e.emissions) AS avg_emissions
+    FROM 
+        emissions e
+    JOIN 
+        countries c ON e.country_id = c.id
+    WHERE 
+        c.country_name = countryName;
+END //
+DELIMITER ;
